@@ -8,8 +8,8 @@
     "format": "prettier .prettierrc.json --write \"src/**/*.ts\"",
     "clear": "rimraf ./dist",
     "build": "npm run clear && tsc",
-    "save-cookies": "npm run build && node dist/save-cookies.js",
-    "dev": "npm run build && node dist/index.js"
+    "save:cookies": "npm run build && node dist/save-cookies.js",
+    "save:booklet": "npm run build && node dist/index.js"
   },
   "keywords": [],
   "author": "",
