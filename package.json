@@ -1,0 +1,28 @@
+{
+  "name": "save-juejin-booklet",
+  "version": "1.0.0",
+  "description": "Easily save the Juejin booklet.",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "format": "prettier .prettierrc.json --write \"src/**/*.ts\"",
+    "clear": "rimraf ./dist",
+    "build": "npm run clear && tsc",
+    "save-cookies": "npm run build && node dist/save-cookies.js",
+    "dev": "npm run build && node dist/index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/inquirer": "^9.0.3",
+    "@types/node": "^20.2.5",
+    "prettier": "^2.8.8",
+    "rimraf": "^5.0.1",
+    "typescript": "^5.0.4"
+  },
+  "dependencies": {
+    "@inquirer/input": "^1.1.2",
+    "puppeteer": "^20.4.0"
+  }
+}
