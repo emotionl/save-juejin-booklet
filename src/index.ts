@@ -8,7 +8,7 @@ const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
 
 const loadCookies = async () => {
-  const cookiesFilePath = path.resolve('./../cookies.json')
+  const cookiesFilePath = path.resolve(__dirname, `./../cookies.json`)
   await access(cookiesFilePath)
   const cookiesContent = await readFile(cookiesFilePath, 'utf-8')
   const cookies = JSON.parse(cookiesContent)
