@@ -23,6 +23,7 @@
   },
   "dependencies": {
     "@inquirer/input": "^1.1.2",
+    "filenamify": "^6.0.0",
     "puppeteer": "^20.4.0"
   }
 }

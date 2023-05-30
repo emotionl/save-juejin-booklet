@@ -4,6 +4,9 @@ dependencies:
   '@inquirer/input':
     specifier: ^1.1.2
     version: 1.1.2
+  filenamify:
+    specifier: ^6.0.0
+    version: 6.0.0
   puppeteer:
     specifier: ^20.4.0
     version: 20.4.0(typescript@5.0.4)
@@ -473,6 +476,18 @@ packages:
     engines: {node: '>=8'}
     dependencies:
       escape-string-regexp: 1.0.5
+    dev: false
+
+  /filename-reserved-regex@3.0.0:
+    resolution: {integrity: sha512-hn4cQfU6GOT/7cFHXBqeBg2TbrMBgdD0kcjLhvSQYYwm3s4B6cjvBfb7nBALJLAXqmU5xajSa7X2NnUud/VCdw==}
+    engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
+    dev: false
+
+  /filenamify@6.0.0:
+    resolution: {integrity: sha512-vqIlNogKeyD3yzrm0yhRMQg8hOVwYcYRfjEoODd49iCprMn4HL85gK3HcykQE53EPIpX3HcAbGA5ELQv216dAQ==}
+    engines: {node: '>=16'}
+    dependencies:
+      filename-reserved-regex: 3.0.0
     dev: false
 
   /foreground-child@3.1.1:

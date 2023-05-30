@@ -1,11 +1,14 @@
 import puppeteer from 'puppeteer'
 import input from '@inquirer/input'
+import filenamify from 'filenamify'
 import path from 'path'
 import { fileURLToPath } from 'url'
 import { writeFile, readFile, mkdir, access } from 'fs/promises'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
+
+const sanitizeFilename = (filename: string) => filenamify(filename, { replacement: '' })
 
 const loadCookies = async () => {
   const cookiesFilePath = path.resolve(__dirname, `./../cookies.json`)
@@ -34,12 +37,12 @@ const generateBookletInfo = async (page: puppeteer.Page, bookletURL: string) => 
   const links = await page.$$eval('.book-content .section-list a', links => {
     return links.map(link => {
       const href = link.href
-      const title = link.querySelector('.title-text').textContent
+      const title = sanitizeFilename(link.querySelector('.title-text').textContent)
       return { href, title }
     })
   })
   const title = await page.title()
-  return { links, title }
+  return { links, title: sanitizeFilename(title) }
 }
 
 const downloadPage = async (
