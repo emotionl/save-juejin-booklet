@@ -16,7 +16,7 @@ npm i
 npm run save:cookies
 ```
 
-Then, log in.
+Then, login with WeChat.
 
 3. Save Booklet
 
