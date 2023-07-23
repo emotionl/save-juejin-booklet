@@ -10,6 +10,14 @@ const __dirname = path.dirname(__filename)
 
 const sanitizeFilename = (filename: string) => filenamify(filename, { replacement: '' })
 
+const sleep = (second: number) => {
+  return new Promise(resolve => {
+    setTimeout(() => {
+      resolve(true)
+    }, second * 1000)
+  })
+}
+
 const loadCookies = async () => {
   const cookiesFilePath = path.resolve(__dirname, `./../cookies.json`)
   await access(cookiesFilePath)
@@ -65,6 +73,27 @@ const downloadPage = async (
     await page.goto(href, {
       waitUntil: 'networkidle2'
     })
+    let prevScrollHeight: number
+    await page.evaluate(() => {
+      prevScrollHeight = document.body.scrollHeight
+      window.scroll({
+        top: document.body.scrollHeight,
+        behavior: 'smooth'
+      })
+    })
+    // 睡眠 1s 加载图片资源
+    await sleep(1)
+    await page.evaluate(() => {
+      // 如果没有滚动到最底部，再次滚动
+      if (prevScrollHeight !== document.body.scrollHeight) {
+        window.scroll({
+          top: document.body.scrollHeight,
+          behavior: 'smooth'
+        })
+      }
+    })
+    // 睡眠 1s 加载图片资源
+    await sleep(1)
     await page.evaluate(() => {
       const sels = ['.book-content__header', '.recommend-box', '.book-summary']
       for (const sel of sels) {
