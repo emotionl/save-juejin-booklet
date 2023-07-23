@@ -10,6 +10,8 @@ const __dirname = path.dirname(__filename)
 
 const sanitizeFilename = (filename: string) => filenamify(filename, { replacement: '' })
 
+const sleep = (milliseconds: number) => new Promise(r => setTimeout(r, milliseconds))
+
 const loadCookies = async () => {
   const cookiesFilePath = path.resolve(__dirname, `./../cookies.json`)
   await access(cookiesFilePath)
@@ -65,6 +67,23 @@ const downloadPage = async (
     await page.goto(href, {
       waitUntil: 'networkidle2'
     })
+    let prevScrollHeight: number = -1
+    let nextScrollHeight: number = 0
+    while (nextScrollHeight > prevScrollHeight) {
+      console.log('===========================')
+      console.log('🚀 prevScrollHeight:', prevScrollHeight)
+      console.log('🚀 nextScrollHeight:', nextScrollHeight)
+      prevScrollHeight = await page.evaluate(() => {
+        document
+          .querySelector('.book-comments')
+          .scrollIntoView({ behavior: 'smooth', block: 'end' })
+        return document.body.scrollHeight
+      })
+      await sleep(5000)
+      nextScrollHeight = await page.evaluate(() => {
+        return document.body.scrollHeight
+      })
+    }
     await page.evaluate(() => {
       const sels = ['.book-content__header', '.recommend-box', '.book-summary']
       for (const sel of sels) {
@@ -77,6 +96,8 @@ const downloadPage = async (
       }
       // @ts-ignore
       document.querySelector('.book-content').style.marginLeft = 0
+      // @ts-ignore
+      document.querySelector('.book-handle').style.display = 'none'
     })
     const { data } = await cdp.send('Page.captureSnapshot', { format: 'mhtml' })
     const writeFilePath = `${outputDirPath}/${index.toString().padStart(2, '0')}-${title}.mhtml`
