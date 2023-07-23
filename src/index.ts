@@ -34,13 +34,19 @@ const generateBookletInfo = async (page: puppeteer.Page, bookletURL: string) => 
     waitUntil: 'load'
   })
   await page.waitForSelector('.book-content .section-list a')
-  const links = await page.$$eval('.book-content .section-list a', links => {
+  let links = await page.$$eval('.book-content .section-list a', links => {
     return links.map(link => {
       const href = link.href
-      const title = sanitizeFilename(link.querySelector('.title-text').textContent)
+      const title = link.querySelector('.title-text').textContent
       return { href, title }
     })
   })
+
+  links = links.map(item => ({
+    ...item,
+    title: sanitizeFilename(item.title)
+  }))
+
   const title = await page.title()
   return { links, title: sanitizeFilename(title) }
 }
