@@ -85,19 +85,15 @@ const downloadPage = async (
       })
     }
     await page.evaluate(() => {
-      const sels = ['.book-content__header', '.recommend-box', '.book-summary']
+      const sels = ['.book-content__header', '.recommend-box', '.book-summary', '.book-handle']
       for (const sel of sels) {
-        const ele = document.querySelector(sel)
-        // @ts-ignore
+        const ele = document.querySelector(sel) as HTMLElement
         if (ele && ele.style) {
-          // @ts-ignore
           ele.style.setProperty('display', 'none', 'important')
         }
       }
       // @ts-ignore
       document.querySelector('.book-content').style.marginLeft = 0
-      // @ts-ignore
-      document.querySelector('.book-handle').style.display = 'none'
     })
     const { data } = await cdp.send('Page.captureSnapshot', { format: 'mhtml' })
     const writeFilePath = `${outputDirPath}/${index.toString().padStart(2, '0')}-${title}.mhtml`
